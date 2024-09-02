@@ -18,7 +18,7 @@ body{
     border: 1px solid #000;
 }
 
-.result{
+.result-container{
     background-color: #fae1fb;
     height: -webkit-fill-available;
     display: flex;
