@@ -36,6 +36,10 @@ body{
     display: flex;
 }
 
+.second-num{
+    margin-left: 5px;
+}
+
 .past-result{
     color: #00000082;
 }
@@ -56,5 +60,5 @@ body{
 }
 
 .btn-equal{
-    flex-grow: 14.5;
+    flex-grow: 8.5;
 }
