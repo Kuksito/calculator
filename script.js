@@ -2,7 +2,7 @@ const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
 const undoBtn = document.querySelector('[data-undo]');
 const clearBtn = document.querySelector('[data-clear]');
-const equalBtn = document.querySelector('[data-equal]');
+const equalBtn = document.querySelector('#btn-equal');
 const plusBtn = document.querySelector('[data-plus]')
 const currentResultContainer = document.querySelector('#current-result');
 const firstNumContainer = document.querySelector('#first-num');
@@ -39,12 +39,12 @@ numberBtns.forEach((btn) => {
             firstNum = parseInt(numberBtnName);
             currentResultContainer.textContent += firstNum;
             console.log(firstNum)
-            // operate(firstNum)
+            // operate(firstNum, secondNum, operator);
         } else {
             secondNum = parseInt(numberBtnName);
             currentResultContainer.textContent += secondNum;
             console.log(secondNum)
-            // operate(secondNum);
+            // return operate(firstNum, secondNum, operator);
         }
         // displayClickedBtn(numberBtnName);
     })
@@ -56,31 +56,53 @@ operatorBtns.forEach((btn) => {
         if(operator !== "="){
             currentResultContainer.textContent += operator;
             console.log(operator);
-        } else {
-            return operate(firstNum, secondNum);
         };
     })
-})
+});
+
+            
+equalBtn.addEventListener('click', () => {
+    operate(firstNum, secondNum, operator);
+});
 
 function add(num1, num2){
     return num1 + num2;
 }
 
+function subtract(num1, num2){
+    return num1 - num2;
+}
+
+function multiply(num1, num2){
+    return num1 * num2;
+}
+
+function divide(num1, num2){
+    return num1 / num2;
+}
+
 function operate(firstNum, secondNum, operator){
     let firstNumToNum = parseInt(firstNum);
     let secondNumToNum = parseInt(secondNum);
-    if(operator === '+'){
+    if(operator == ' + '){
         operationResult = add(firstNumToNum, secondNumToNum);
-        console.log(operationResult);
+        currentResultContainer.textContent = operationResult;        
+    };
+    if(operator == ' - '){
+        operationResult = subtract(firstNumToNum, secondNumToNum);
         currentResultContainer.textContent = operationResult;
-        console.log(operationResult);
-        
+    };
+    if(operator == ' x '){
+        operationResult = multiply(firstNumToNum, secondNumToNum);
+        currentResultContainer.textContent = operationResult;
+    };
+    if(operator == ' ÷ '){
+        operationResult = divide(firstNumToNum, secondNumToNum);
+        currentResultContainer.textContent = operationResult;
     }
+console.log(operationResult);
+
 }
 
-console.log(operate);
 
 
-
-
-// equalBtn.addEventListener('click', operate);
