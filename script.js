@@ -33,14 +33,13 @@ undoBtn.addEventListener('click', () => {
 numberBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const numberBtnName = btn.dataset.number;
+        // currentResultContainer.textContent = '';
         if(operator === ''){
-            if(operationResult === 0){
+            
                 firstNum += numberBtnName;
                 console.log(firstNum);
                 
-            } else {
-                firstNum = operationResult;
-            }
+           
             firstNumContainer.textContent = '';
             firstNumContainer.append(firstNum);
             currentResultContainer.append(firstNumContainer)
@@ -70,12 +69,28 @@ operatorBtns.forEach((btn) => {
 
             console.log(operator);
         };
+        if(operator == 'x²'){
+            currentResultContainer.textContent = firstNum + '²'
+        }
     })
 });
 
             
 equalBtn.addEventListener('click', () => {
-    operate(firstNum, secondNum, operator);
+    if(operator == 'x²'){
+        secondNum = '';
+        currentResultContainer.textContent = '';
+        operationResult = 0;
+        operationResult = pow(parseInt(firstNum));
+        currentResultContainer.textContent = operationResult;
+        firstNum = '';
+        firstNumContainer.textContent = '';
+
+        console.log(operationResult);
+        
+    } else{ 
+        operate(firstNum, secondNum, operator);
+    }
 });
 
 function add(num1, num2){
@@ -94,25 +109,27 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
+function pow(num){
+    return Math.pow(num, 2);
+}
+
 function operate(firstNum, secondNum, operator){
     let firstNumToNum = parseInt(firstNum);
     let secondNumToNum = parseInt(secondNum);
     if(operator == ' + '){
         operationResult = add(firstNumToNum, secondNumToNum);
-        currentResultContainer.textContent = operationResult;        
     };
     if(operator == ' - '){
         operationResult = subtract(firstNumToNum, secondNumToNum);
-        currentResultContainer.textContent = operationResult;
     };
     if(operator == ' x '){
         operationResult = multiply(firstNumToNum, secondNumToNum);
-        currentResultContainer.textContent = operationResult;
     };
     if(operator == ' ÷ '){
         operationResult = divide(firstNumToNum, secondNumToNum);
-        currentResultContainer.textContent = operationResult;
     }
+    currentResultContainer.textContent = operationResult;
+
 console.log(operationResult);
 
 }
