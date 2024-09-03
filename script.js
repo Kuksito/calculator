@@ -11,18 +11,16 @@ const operatorContainer = document.querySelector('#operator-container');
 const result = document.querySelector('#result');
 const pastResultContainer = document.querySelector('#past-result');
 
-let firstNum = 0;
-let secondNum = 0;
+let firstNum = '';
+let secondNum = '';
 let operator = '';
 let operationResult = 0;
 
 clearBtn.addEventListener('click', () => {
-    firstNumContainer.textContent = '';
-    secondNumContainer.textContent = ''
-    operatorContainer.textContent = '';
     currentResultContainer.textContent = '';
-    firstNum = 0;
-    secondNum = 0;
+    firstNum = '';
+    secondNum = '';
+    operationResult = 0;
     operator = '';
 });
 
@@ -36,17 +34,25 @@ numberBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const numberBtnName = btn.dataset.number;
         if(operator === ''){
-            firstNum = parseInt(numberBtnName);
-            currentResultContainer.textContent += firstNum;
-            console.log(firstNum)
-            // operate(firstNum, secondNum, operator);
+            if(operationResult === 0){
+                firstNum += numberBtnName;
+                console.log(firstNum);
+                
+            } else {
+                firstNum = operationResult;
+            }
+            firstNumContainer.textContent = '';
+            firstNumContainer.append(firstNum);
+            currentResultContainer.append(firstNumContainer)
+            console.log(firstNumContainer)
         } else {
-            secondNum = parseInt(numberBtnName);
-            currentResultContainer.textContent += secondNum;
+            secondNum += numberBtnName;
+            secondNumContainer.textContent = ''
+            secondNumContainer.append(secondNum);
+            currentResultContainer.append(secondNumContainer)
             console.log(secondNum)
-            // return operate(firstNum, secondNum, operator);
+        console.log(secondNumContainer);
         }
-        // displayClickedBtn(numberBtnName);
     })
 });
 
@@ -55,6 +61,13 @@ operatorBtns.forEach((btn) => {
         operator = btn.dataset.operator;
         if(operator !== "="){
             currentResultContainer.textContent += operator;
+
+            if(operationResult !== 0){
+                firstNum = operationResult;
+            }
+
+            secondNum = '';
+
             console.log(operator);
         };
     })
