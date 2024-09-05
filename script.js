@@ -16,8 +16,12 @@ let secondNum = '';
 let operator = '';
 let operationResult = 0;
 
+let clickedOperator;
+
+
 clearBtn.addEventListener('click', () => {
     currentResultContainer.textContent = '';
+    result.textContent = '';
     firstNum = '';
     secondNum = '';
     operationResult = 0;
@@ -25,33 +29,56 @@ clearBtn.addEventListener('click', () => {
 });
 
 undoBtn.addEventListener('click', () => {
-    firstNum.splice(-1,1);
-    currentResultContainer.textContent = firstNum.join('');
-    console.log(firstNum)
+    if(secondNum === '' && operator === ''){
+        firstNum = firstNum.slice(0, firstNum.length - 1)
+        firstNumContainer.textContent = firstNum;
+        currentResultContainer.textContent = firstNum;
+        console.log(firstNumContainer);
+        console.log(firstNum);
+    } else if(secondNum === '' && operator !== ''){
+        operator = operator.slice(0, -1);
+        currentResultContainer.textContent = firstNum;
+    }
+    else {
+        secondNum = secondNum.slice(0, secondNum.length - 1);
+        secondNumContainer.textContent = secondNum;
+        currentResultContainer.append(secondNumContainer)
+        // currentResultContainer.textContent = secondNum;
+        console.log(secondNumContainer);
+        console.log(secondNum);
+    }
+  
+//    currentResultContainer.textContent = currentResultContainer.textContent.slice(0, -1);
+//    console.log(currentResultContainer);
+//    console.log(firstNum);
+//    console.log(firstNumContainer);
+//    console.log(secondNum);
+//    console.log(secondNumContainer);
+   
 });
 
 numberBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const numberBtnName = btn.dataset.number;
-        // currentResultContainer.textContent = '';
+        result.textContent = '';
         if(operator === ''){
-            
-                firstNum += numberBtnName;
-                console.log(firstNum);
-                
-           
+            operationResult = 0;
+            firstNum += numberBtnName;
             firstNumContainer.textContent = '';
             firstNumContainer.append(firstNum);
             currentResultContainer.append(firstNumContainer)
-            console.log(firstNumContainer)
+console.log(firstNumContainer)
+console.log(typeof firstNum);    
         } else {
             secondNum += numberBtnName;
             secondNumContainer.textContent = ''
             secondNumContainer.append(secondNum);
             currentResultContainer.append(secondNumContainer)
-            console.log(secondNum)
-        console.log(secondNumContainer);
-        }
+console.log(firstNumContainer);
+
+console.log(secondNumContainer);
+console.log(typeof secondNum);
+        };
     })
 });
 
@@ -61,37 +88,48 @@ operatorBtns.forEach((btn) => {
         if(operator !== "="){
             currentResultContainer.textContent += operator;
 
-            if(operationResult !== 0){
-                firstNum = operationResult;
+            if(operationResult !==0){
+            firstNum = operationResult;
+            firstNumContainer.textContent = '';
+            firstNumContainer.append(firstNum);
+console.log(firstNumContainer)
+console.log(typeof firstNum);
+            
             }
-
             secondNum = '';
 
-            console.log(operator);
+ console.log(typeof operator);
         };
         if(operator == 'x²'){
             currentResultContainer.textContent = firstNum + '²'
-        }
+        };
+        console.log(firstNumContainer);
+        
     })
 });
 
             
-equalBtn.addEventListener('click', () => {
+equalBtn.addEventListener('click', () => {    
     if(operator == 'x²'){
-        secondNum = '';
-        currentResultContainer.textContent = '';
-        operationResult = 0;
-        operationResult = pow(parseInt(firstNum));
-        currentResultContainer.textContent = operationResult;
-        firstNum = '';
-        firstNumContainer.textContent = '';
-
-        console.log(operationResult);
-        
+        getPower(firstNum);
+console.log(operationResult);
     } else{ 
         operate(firstNum, secondNum, operator);
     }
+    removeContent();
 });
+
+function removeContent(){
+    currentResultContainer.textContent = '';
+    result.textContent = '';
+    result.append(operationResult);
+    currentResultContainer.append(result);
+    firstNum = '';
+    secondNum = '';
+    operator = '';
+    console.log(typeof operationResult);
+    
+}
 
 function add(num1, num2){
     return num1 + num2;
@@ -116,23 +154,33 @@ function pow(num){
 function operate(firstNum, secondNum, operator){
     let firstNumToNum = parseInt(firstNum);
     let secondNumToNum = parseInt(secondNum);
-    if(operator == ' + '){
+    if(operator == '+'){
         operationResult = add(firstNumToNum, secondNumToNum);
     };
-    if(operator == ' - '){
+    if(operator == '-'){
         operationResult = subtract(firstNumToNum, secondNumToNum);
     };
-    if(operator == ' x '){
+    if(operator == 'x'){
         operationResult = multiply(firstNumToNum, secondNumToNum);
     };
-    if(operator == ' ÷ '){
+    if(operator == '÷'){
         operationResult = divide(firstNumToNum, secondNumToNum);
-    }
-    currentResultContainer.textContent = operationResult;
-
+    };
+   
+console.log(result);
 console.log(operationResult);
-
 }
 
+function getPower(firstNum){
+        secondNum = '';
+        currentResultContainer.textContent = '';
+        operationResult = 0;
+        operationResult = pow(parseInt(firstNum));
+        currentResultContainer.textContent = operationResult;
+        firstNum = '';
+        firstNumContainer.textContent = '';
+        result.append(operationResult);
+    console.log(result);
 
+}
 
