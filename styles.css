@@ -13,7 +13,7 @@ body{
 
 .container-border-image{
     background-image: url(imgs/border.png);
-    width: 610px;
+    width: 574px;
     height: 582px;
     margin: 0 auto;
     padding: 47px 37px 35px 46px;
@@ -26,7 +26,7 @@ body{
     justify-content: center;
     align-items: center;
     margin: 74px auto;
-    width: 56vmin;
+    width: 53vmin;
     height: 51vmin;   
     background-color: #fae1fb;
 }
@@ -77,8 +77,4 @@ body{
     border-radius: 20px;
     box-shadow: 1px 2px 3px #77137b;
     font-family: "Tiny5", sans-serif;
-}
-
-.btn-equal{
-    flex-grow: 14.5;
 }
