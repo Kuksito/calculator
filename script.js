@@ -3,21 +3,17 @@ const operatorBtns = document.querySelectorAll('[data-operator]');
 const undoBtn = document.querySelector('[data-undo]');
 const clearBtn = document.querySelector('[data-clear]');
 const equalBtn = document.querySelector('#btn-equal');
-const plusBtn = document.querySelector('[data-plus]')
+const pointBtn = document.querySelector('[data-point]');
 const currentResultContainer = document.querySelector('#current-result');
 const firstNumContainer = document.querySelector('#first-num');
 const secondNumContainer = document.querySelector('#second-num');
-const operatorContainer = document.querySelector('#operator-container');
 const result = document.querySelector('#result');
-const pastResultContainer = document.querySelector('#past-result');
 
 let firstNum = '';
 let secondNum = '';
 let operator = '';
 let operationResult = 0;
-
-let clickedOperator;
-
+let pointValue = '';
 
 clearBtn.addEventListener('click', () => {
     currentResultContainer.textContent = '';
@@ -43,22 +39,23 @@ undoBtn.addEventListener('click', () => {
         secondNum = secondNum.slice(0, secondNum.length - 1);
         secondNumContainer.textContent = secondNum;
         currentResultContainer.append(secondNumContainer)
-        // currentResultContainer.textContent = secondNum;
         console.log(secondNumContainer);
         console.log(secondNum);
     }
-  
-//    currentResultContainer.textContent = currentResultContainer.textContent.slice(0, -1);
-//    console.log(currentResultContainer);
-//    console.log(firstNum);
-//    console.log(firstNumContainer);
-//    console.log(secondNum);
-//    console.log(secondNumContainer);
-   
 });
 
+// pointBtn.addEventListener('click', (e) => {
+//     pointValue = e.target.textContent;
+//     if(secondNum === ''){
+//         firstNumContainer.textContent += pointValue;
+//         currentResultContainer.append(firstNumContainer)
+//         console.log(firstNumContainer);
+        
+//     }
+// });
+
 numberBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
         const numberBtnName = btn.dataset.number;
         result.textContent = '';
         if(operator === ''){
@@ -74,7 +71,7 @@ console.log(typeof firstNum);
             secondNumContainer.textContent = ''
             secondNumContainer.append(secondNum);
             currentResultContainer.append(secondNumContainer)
-console.log(firstNumContainer);
+console.log(firstNumContainer.textContent);
 
 console.log(secondNumContainer);
 console.log(typeof secondNum);
@@ -83,11 +80,11 @@ console.log(typeof secondNum);
 });
 
 operatorBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
         operator = btn.dataset.operator;
-        if(operator !== "="){
+        if(operator !== "=" && operator !== '%'){
+            // operator = '';
             currentResultContainer.textContent += operator;
-
             if(operationResult !==0){
             firstNum = operationResult;
             firstNumContainer.textContent = '';
@@ -101,8 +98,15 @@ console.log(typeof firstNum);
  console.log(typeof operator);
         };
         if(operator == 'x²'){
-            currentResultContainer.textContent = firstNum + '²'
+            currentResultContainer.textContent = firstNum + '²';
         };
+        if(operator == '%'){
+            if(secondNum !== ''){
+                secondNumContainer.textContent = secondNum + '%';
+            } else {
+                firstNumContainer.textContent = firstNum + '%';
+            }
+        }
         console.log(firstNumContainer);
         
     })
@@ -127,33 +131,55 @@ function removeContent(){
     firstNum = '';
     secondNum = '';
     operator = '';
-    console.log(typeof operationResult);
+    operationResult.toString();
+// operationResult.toFixed(10);
+//     console.log(typeof operationResult);
     
 }
 
 function add(num1, num2){
-    return num1 + num2;
-}
+    let result = num1 + num2;
+    return result.toString();
+};
 
 function subtract(num1, num2){
-    return num1 - num2;
-}
+    let result = num1 - num2;
+    return result.toString();
+};
 
 function multiply(num1, num2){
-    return num1 * num2;
-}
+    let result = num1 * num2;
+    return result.toString();
+};
 
 function divide(num1, num2){
-    return num1 / num2;
-}
+    let result = num1 / num2;
+    return result.toFixed(10).toString();
+};
 
 function pow(num){
-    return Math.pow(num, 2);
+    let result = Math.pow(num, 2);
+    return result.toString();
+};
+
+function getPercentage(num1, num2){
+    let result;
+    if(num2 == ''){
+    result = (num1 / 100);
+    };
+    if(firstNumContainer.textContent == num1 + '%'){
+        result = (num1 / 100) + num2;
+        console.log(result);
+    };
+    if (secondNumContainer.textContent == num2 + '%') {
+        result = num1 + ((num1 / 100) * num2);
+    } 
+    return result.toString();
 }
 
 function operate(firstNum, secondNum, operator){
-    let firstNumToNum = parseInt(firstNum);
-    let secondNumToNum = parseInt(secondNum);
+    let firstNumToNum = Number(firstNum);
+    let secondNumToNum = Number(secondNum);
     if(operator == '+'){
         operationResult = add(firstNumToNum, secondNumToNum);
     };
@@ -166,21 +192,24 @@ function operate(firstNum, secondNum, operator){
     if(operator == '÷'){
         operationResult = divide(firstNumToNum, secondNumToNum);
     };
-   
+    if(operator == '%'){
+        operationResult = getPercentage(firstNumToNum, secondNumToNum, operator);
+    };
+
 console.log(result);
-console.log(operationResult);
-}
+console.log(typeof operationResult);
+};
 
 function getPower(firstNum){
         secondNum = '';
         currentResultContainer.textContent = '';
         operationResult = 0;
-        operationResult = pow(parseInt(firstNum));
+        operationResult = pow(Number(firstNum));
         currentResultContainer.textContent = operationResult;
         firstNum = '';
         firstNumContainer.textContent = '';
         result.append(operationResult);
     console.log(result);
 
-}
+};
 
