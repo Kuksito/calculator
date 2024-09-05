@@ -44,16 +44,6 @@ undoBtn.addEventListener('click', () => {
     }
 });
 
-// pointBtn.addEventListener('click', (e) => {
-//     pointValue = e.target.textContent;
-//     if(secondNum === ''){
-//         firstNumContainer.textContent += pointValue;
-//         currentResultContainer.append(firstNumContainer)
-//         console.log(firstNumContainer);
-        
-//     }
-// });
-
 numberBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
         const numberBtnName = btn.dataset.number;
@@ -81,9 +71,8 @@ console.log(typeof secondNum);
 
 operatorBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-        operator = btn.dataset.operator;
+        operator = btn.textContent;
         if(operator !== "=" && operator !== '%'){
-            // operator = '';
             currentResultContainer.textContent += operator;
             if(operationResult !==0){
             firstNum = operationResult;
@@ -153,8 +142,16 @@ function multiply(num1, num2){
 };
 
 function divide(num1, num2){
-    let result = num1 / num2;
-    return result.toFixed(10).toString();
+    let result;
+    if(num2 == 0){
+        return currentResultContainer.textContent = 'error'
+    } else { 
+        result = num1 / num2;
+        if(Number.isInteger(result)){
+            return result.toString();
+        } else {
+            return result.toFixed(10).toString();
+        }    }
 };
 
 function pow(num){
@@ -180,21 +177,24 @@ function getPercentage(num1, num2){
 function operate(firstNum, secondNum, operator){
     let firstNumToNum = Number(firstNum);
     let secondNumToNum = Number(secondNum);
-    if(operator == '+'){
-        operationResult = add(firstNumToNum, secondNumToNum);
+    switch(operator){
+        case '+':
+        return operationResult = add(firstNumToNum, secondNumToNum);
+    
+        case '-':
+       return operationResult = subtract(firstNumToNum, secondNumToNum);
+
+        case 'x':
+        return operationResult = multiply(firstNumToNum, secondNumToNum);
+    
+        case '÷':
+        return operationResult = divide(firstNumToNum, secondNumToNum);
+    
+        case '%':
+        return operationResult = getPercentage(firstNumToNum, secondNumToNum, operator);
+    
     };
-    if(operator == '-'){
-        operationResult = subtract(firstNumToNum, secondNumToNum);
-    };
-    if(operator == 'x'){
-        operationResult = multiply(firstNumToNum, secondNumToNum);
-    };
-    if(operator == '÷'){
-        operationResult = divide(firstNumToNum, secondNumToNum);
-    };
-    if(operator == '%'){
-        operationResult = getPercentage(firstNumToNum, secondNumToNum, operator);
-    };
+   
 
 console.log(result);
 console.log(typeof operationResult);
@@ -213,3 +213,39 @@ function getPower(firstNum){
 
 };
 
+document.addEventListener('keydown', (e) => {
+    const pressedKey = e.key;
+    if(!isNaN(pressedKey) && pressedKey !== ''){
+        const numberBtnName = document.querySelector(`[data-number='${pressedKey}']`);
+        if(numberBtnName){
+            numberBtnName.click();
+        };
+    };
+
+    if(['+', '-', '*', '/'].includes(pressedKey)){
+        const operatorBtn = document.querySelector(`[data-operator='${pressedKey}']`);
+        if(operatorBtn){
+            operatorBtn.click();
+        };
+    };
+
+    if(pressedKey === 'Enter' || pressedKey === '='){
+        equalBtn.click();
+    }
+
+    if(pressedKey === '.'){
+        const pointValue = document.querySelector(`[data-number='${pressedKey}']`);
+        if(pointValue){
+            pointValue.click();
+        };
+    };
+
+    if(pressedKey === 'Escape'){
+        clearBtn.click();
+    };
+
+    if(pressedKey === 'Backspace'){
+        undoBtn.click();
+    }
+
+})
