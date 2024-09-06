@@ -51,7 +51,7 @@ numberBtns.forEach((btn) => {
 operatorBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
         operator = btn.textContent;
-        if(operator !== "=" && operator !== '%'){
+        if(operator){
             currentResultContainer.textContent += operator;
             if(operationResult !==0){
             firstNum = operationResult;
