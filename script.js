@@ -3,21 +3,15 @@ const operatorBtns = document.querySelectorAll('[data-operator]');
 const undoBtn = document.querySelector('[data-undo]');
 const clearBtn = document.querySelector('[data-clear]');
 const equalBtn = document.querySelector('#btn-equal');
-const pointBtn = document.querySelector('[data-point]');
 const currentResultContainer = document.querySelector('#current-result');
-const firstNumContainer = document.querySelector('#first-num');
-const secondNumContainer = document.querySelector('#second-num');
-const result = document.querySelector('#result');
 
 let firstNum = '';
 let secondNum = '';
 let operator = '';
 let operationResult = 0;
-let pointValue = '';
 
 clearBtn.addEventListener('click', () => {
     currentResultContainer.textContent = '';
-    result.textContent = '';
     firstNum = '';
     secondNum = '';
     operationResult = 0;
@@ -26,47 +20,32 @@ clearBtn.addEventListener('click', () => {
 
 undoBtn.addEventListener('click', () => {
     if(secondNum === '' && operator === ''){
-        firstNum = firstNum.slice(0, firstNum.length - 1)
-        firstNumContainer.textContent = firstNum;
+        firstNum = firstNum.slice(0, firstNum.length - 1);
         currentResultContainer.textContent = firstNum;
-        console.log(firstNumContainer);
-        console.log(firstNum);
     } else if(secondNum === '' && operator !== ''){
         operator = operator.slice(0, -1);
         currentResultContainer.textContent = firstNum;
     }
     else {
         secondNum = secondNum.slice(0, secondNum.length - 1);
-        secondNumContainer.textContent = secondNum;
-        currentResultContainer.append(secondNumContainer)
-        console.log(secondNumContainer);
-        console.log(secondNum);
-    }
+        currentResultContainer.textContent = secondNum;
+    };
 });
 
 numberBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
         const numberBtnName = btn.dataset.number;
-        result.textContent = '';
+        currentResultContainer.textContent = '';
         if(operator === ''){
             operationResult = 0;
             firstNum += numberBtnName;
-            firstNumContainer.textContent = '';
-            firstNumContainer.append(firstNum);
-            currentResultContainer.append(firstNumContainer)
-console.log(firstNumContainer)
-console.log(typeof firstNum);    
+            currentResultContainer.textContent = '';
+            currentResultContainer.append(firstNum);
         } else {
             secondNum += numberBtnName;
-            secondNumContainer.textContent = ''
-            secondNumContainer.append(secondNum);
-            currentResultContainer.append(secondNumContainer)
-console.log(firstNumContainer.textContent);
-
-console.log(secondNumContainer);
-console.log(typeof secondNum);
+            currentResultContainer.append(firstNum, operator, secondNum);
         };
-    })
+    });
 });
 
 operatorBtns.forEach((btn) => {
@@ -76,36 +55,28 @@ operatorBtns.forEach((btn) => {
             currentResultContainer.textContent += operator;
             if(operationResult !==0){
             firstNum = operationResult;
-            firstNumContainer.textContent = '';
-            firstNumContainer.append(firstNum);
-console.log(firstNumContainer)
-console.log(typeof firstNum);
-            
-            }
+            currentResultContainer.textContent = '';
+            currentResultContainer.append(firstNum);           
+            };
             secondNum = '';
-
- console.log(typeof operator);
         };
         if(operator == 'x²'){
             currentResultContainer.textContent = firstNum + '²';
         };
         if(operator == '%'){
             if(secondNum !== ''){
-                secondNumContainer.textContent = secondNum + '%';
+                currentResultContainer.textContent = secondNum + '%';
             } else {
-                firstNumContainer.textContent = firstNum + '%';
-            }
-        }
-        console.log(firstNumContainer);
-        
-    })
+                currentResultContainer.textContent = firstNum + '%';
+            };
+        };        
+    });
 });
 
             
 equalBtn.addEventListener('click', () => {    
     if(operator == 'x²'){
         getPower(firstNum);
-console.log(operationResult);
     } else{ 
         operate(firstNum, secondNum, operator);
     }
@@ -114,17 +85,12 @@ console.log(operationResult);
 
 function removeContent(){
     currentResultContainer.textContent = '';
-    result.textContent = '';
-    result.append(operationResult);
-    currentResultContainer.append(result);
+    currentResultContainer.append(operationResult);
     firstNum = '';
     secondNum = '';
     operator = '';
     operationResult.toString();
-// operationResult.toFixed(10);
-//     console.log(typeof operationResult);
-    
-}
+};
 
 function add(num1, num2){
     let result = num1 + num2;
@@ -144,14 +110,15 @@ function multiply(num1, num2){
 function divide(num1, num2){
     let result;
     if(num2 == 0){
-        return currentResultContainer.textContent = 'error'
+        return currentResultContainer.textContent = 'error';
     } else { 
         result = num1 / num2;
         if(Number.isInteger(result)){
             return result.toString();
         } else {
-            return result.toFixed(10).toString();
-        }    }
+            return +result.toFixed(10).toString();
+        };
+    };
 };
 
 function pow(num){
@@ -164,15 +131,14 @@ function getPercentage(num1, num2){
     if(num2 == ''){
     result = (num1 / 100);
     };
-    if(firstNumContainer.textContent == num1 + '%'){
+    if (currentResultContainer.textContent == num1 + '%') {
         result = (num1 / 100) + num2;
-        console.log(result);
     };
-    if (secondNumContainer.textContent == num2 + '%') {
+    if (currentResultContainer.textContent == num2 + '%') {
         result = num1 + ((num1 / 100) * num2);
-    } 
+    };
     return result.toString();
-}
+};
 
 function operate(firstNum, secondNum, operator){
     let firstNumToNum = Number(firstNum);
@@ -182,7 +148,7 @@ function operate(firstNum, secondNum, operator){
         return operationResult = add(firstNumToNum, secondNumToNum);
     
         case '-':
-       return operationResult = subtract(firstNumToNum, secondNumToNum);
+        return operationResult = subtract(firstNumToNum, secondNumToNum);
 
         case 'x':
         return operationResult = multiply(firstNumToNum, secondNumToNum);
@@ -192,25 +158,14 @@ function operate(firstNum, secondNum, operator){
     
         case '%':
         return operationResult = getPercentage(firstNumToNum, secondNumToNum, operator);
-    
     };
-   
-
-console.log(result);
-console.log(typeof operationResult);
 };
 
 function getPower(firstNum){
         secondNum = '';
-        currentResultContainer.textContent = '';
         operationResult = 0;
         operationResult = pow(Number(firstNum));
         currentResultContainer.textContent = operationResult;
-        firstNum = '';
-        firstNumContainer.textContent = '';
-        result.append(operationResult);
-    console.log(result);
-
 };
 
 document.addEventListener('keydown', (e) => {
@@ -246,6 +201,5 @@ document.addEventListener('keydown', (e) => {
 
     if(pressedKey === 'Backspace'){
         undoBtn.click();
-    }
-
-})
+    };
+});
