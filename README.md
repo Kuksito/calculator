@@ -7,5 +7,7 @@ if it comes from the first number or use different operators the calculation is 
 
 calculator can do multiple calculation;
 
+doesn't have a responsive layout;
+
 credits:
 background image - freepik https://www.freepik.com/free-vector/linear-vintage-vaporwave-background_12983494.htm
