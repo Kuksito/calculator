@@ -45,6 +45,9 @@ numberBtns.forEach((btn) => {
             secondNum += numberBtnName;
             currentResultContainer.append(firstNum, operator, secondNum);
         };
+        if(secondNum !=='' && operator !== ''){
+            operationResult = operate(firstNum, secondNum, operator);
+        }
     });
 });
 
