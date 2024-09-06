@@ -5,7 +5,7 @@ the percentage of an expression if the expression uses the +
 operator and the percentage comes after the second number;
 if it comes from the first number or use different operators the calculation is wrong;
 
-calculator can do multiple calculation;
+calculator can't do multiple calculation;
 
 doesn't have a responsive layout;
 
