@@ -40,8 +40,6 @@ body::before{
     justify-content: center;
     align-items: center;
     margin: 74px auto;
-    /* width: 53vmin;
-    height: 51vmin;    */
     width: 498px;
     height: 477px;
     background-color: #fae1fb;
