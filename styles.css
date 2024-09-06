@@ -11,13 +11,27 @@ body{
     font-family: "Tiny5", sans-serif;
 }
 
+body::before{
+    content: '';
+    background-image: url(imgs/background.jpg);
+    background-repeat: repeat-x;
+    background-size: cover;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
 .container-border-image{
     background-image: url(imgs/border.png);
     width: 574px;
     height: 582px;
-    margin: 0 auto;
+    margin: 60px auto;
     padding: 47px 37px 35px 46px;
     background-repeat: round;
+    position: relative;
 }
 
 .container{
